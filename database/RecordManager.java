@@ -96,19 +96,15 @@ public class RecordManager<T extends BaseRecord> {
 
       private ArrayList<Change> findChanges(BaseRecord record) {
         ArrayList<Change> result = new ArrayList<Change>();
-        ArrayList<Integer> indexDelete = new ArrayList<Integer>();
 
-        int index = 0;
         for (Change change : manager.changedRecordList) {
           if (change.getRecord() == record) {
             result.add(change);
-            indexDelete.add(index);
           }
-          index++;
         }
 
-        for (int _index : indexDelete) {
-          manager.changedRecordList.remove(_index);
+        for (Change changeResult : result) {
+          manager.changedRecordList.remove(changeResult);
         }
 
         return result;
