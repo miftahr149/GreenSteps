@@ -68,6 +68,9 @@ class ObjectParser {
           field.set(obj, parser.parse(fieldValueStr));
         } else if (field.getType() == String.class) {
           field.set(obj, fieldValueStr);
+        } else {
+          System.err.printf("Unable to decode attribute %s with type %s", objAttribute,
+              field.getType());
         }
         field.setAccessible(false);
       } catch (NoSuchFieldException e) {
