@@ -12,9 +12,10 @@ interface OnExtractFromFile {
   void accept(String recordStr, int page);
 }
 
+
 class RecordFileManager {
   private static final int MAX_PAGE_SIZE = 255;
-  private static final String EMPTY_PAGE = " ".repeat(RecordFileManager.MAX_PAGE_SIZE) + "\n";
+  private static final String EMPTY_PAGE = " ".repeat(RecordFileManager.MAX_PAGE_SIZE);
 
   private ArrayList<Integer> availablePageList;
   private String fileDirname;
@@ -63,7 +64,7 @@ class RecordFileManager {
     try {
       RandomAccessFile fileStream = new RandomAccessFile(this.fileDirname, "rw");
       fileStream.seek(fileStream.length());
-      fileStream.write(RecordFileManager.EMPTY_PAGE.getBytes());
+      fileStream.write((RecordFileManager.EMPTY_PAGE + "\n").getBytes());
       fileStream.close();
 
       Path filePath = Path.of(this.fileDirname);
@@ -76,7 +77,7 @@ class RecordFileManager {
   }
 
   private long toPhysicalPosition(int page) {
-    return page * RecordFileManager.EMPTY_PAGE.length();
+    return page * (RecordFileManager.EMPTY_PAGE.length() + 1);
   }
 
   public void write(int page, String strRecord) {
