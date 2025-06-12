@@ -1,6 +1,8 @@
 package database;
 
 import java.lang.reflect.Field;
+import java.util.HashMap;
+import java.util.Map;
 
 class ObjectParser {
 
@@ -43,25 +45,35 @@ class ObjectParser {
   }
 
   static void decode(Object obj, String[] attributes, String encodeStr) {
+    Map<String, String> mapSavedAttribute = new HashMap<String, String>();
+    for (String attribute : attributes) {
+      mapSavedAttribute.put(attribute, attribute);
+    }
+    ObjectParser.decode(obj, mapSavedAttribute, encodeStr);
+  }
+
+  static void decode(Object obj, Map<String, String> mapSavedAttribute, String encodeStr) {
     Class<?> _class = obj.getClass();
 
-    for (String attributeName : attributes) {
+    for (Map.Entry<String, String> entry : mapSavedAttribute.entrySet()) {
+      String strAttribute = entry.getKey();
+      String objAttribute = entry.getValue();
       try {
-        Field field = _class.getDeclaredField(attributeName);
+        Field field = _class.getDeclaredField(objAttribute);
         field.setAccessible(true);
-        String fieldValueStr = getFieldValue(encodeStr, attributeName);
+        String fieldValueStr = getFieldValue(encodeStr, strAttribute);
         if (field.getType().isPrimitive()) {
-          PrimitiveParser parser = PrimitiveParser.valueOf(field.getType().toString().toUpperCase());
+          PrimitiveParser parser =
+              PrimitiveParser.valueOf(field.getType().toString().toUpperCase());
           field.set(obj, parser.parse(fieldValueStr));
         } else if (field.getType() == String.class) {
           field.set(obj, fieldValueStr);
         }
         field.setAccessible(false);
-
       } catch (NoSuchFieldException e) {
-        System.err.printf("There is no such thing as field %s in %s", attributeName, _class);
+        System.err.printf("There is no such thing as field %s in %s", objAttribute, _class);
       } catch (IllegalAccessException e) {
-        System.err.printf("Unabble to access field %s", attributeName);
+        System.err.printf("Unable to access field %s", objAttribute);
       }
     }
   }
