@@ -4,7 +4,7 @@ public class Student extends BaseRecord {
   private String name;
   private double gpa;
 
-  public static Factory<Student> studentFactory = new Factory<Student>() {
+  public static Factory<Student> factory = new Factory<Student>() {
     @Override
     public String[] getSaveAttributes() {
       return new String[] {"name", "gpa"};
@@ -27,7 +27,7 @@ public class Student extends BaseRecord {
   };
 
   public Student(CallbackRecord callback) {
-    super(callback, Student.studentFactory);
+    super(callback, Student.factory);
   }
 
   public String getName() {

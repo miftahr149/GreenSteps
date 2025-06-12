@@ -8,6 +8,6 @@ public class DatabaseConfiguration {
   }
 
   public static void configure() {
-    new RecordManager<Student>(Student.studentFactory);
+    new RecordManager<Student>(Student.factory);
   }
 }
