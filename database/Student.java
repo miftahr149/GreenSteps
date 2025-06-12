@@ -4,28 +4,30 @@ public class Student extends BaseRecord {
   private String name;
   private double gpa;
 
-  public static class StudentFactory implements Factory<Student> {
+  public static Factory<Student> studentFactory = new Factory<Student>() {
     @Override
     public String[] getSaveAttributes() {
-      return new String[] {
-          "name",
-          "gpa"
-      };
+      return new String[] {"name", "gpa"};
     }
 
     @Override
     public String getFileDirname() {
-      return "Storage/Student.txt";
+      return DatabaseConfiguration.setFileDirname(this.getFilename());
     }
 
     @Override
     public Student newInstance(CallbackRecord callback) {
       return new Student(callback);
     }
-  }
+
+    @Override
+    public String getFilename() {
+      return "student";
+    }
+  };
 
   public Student(CallbackRecord callback) {
-    super(callback, new Student.StudentFactory());
+    super(callback, Student.studentFactory);
   }
 
   public String getName() {
@@ -33,7 +35,6 @@ public class Student extends BaseRecord {
   }
 
   public double getGpa() {
-    this.callback.update(this);
     return this.gpa;
   }
 

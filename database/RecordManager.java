@@ -12,8 +12,10 @@ interface CallbackRecord {
   void save(BaseRecord record);
 }
 
+
 public class RecordManager<T extends BaseRecord> {
-  static private Map<String, RecordManager<?>> managerInstanceList = new HashMap<String, RecordManager<?>>();
+  static private Map<String, RecordManager<?>> managerInstanceList =
+      new HashMap<String, RecordManager<?>>();
 
   private Factory<T> factory;
   private ArrayList<Change> changedRecordList;
@@ -23,7 +25,7 @@ public class RecordManager<T extends BaseRecord> {
 
   private int highestID;
   private boolean isManagerChange = false;
-  private String[] saveAttributes = { "highestID" };
+  private String[] saveAttributes = {"highestID"};
 
   static private void addManagerInstance(String name, RecordManager<?> instance) {
     RecordManager.managerInstanceList.put(name, instance);
@@ -34,9 +36,9 @@ public class RecordManager<T extends BaseRecord> {
     return (RecordManager<U>) result;
   }
 
-  public RecordManager(String name, Factory<T> factory) {
-    RecordManager.addManagerInstance(name, this);
+  public RecordManager(Factory<T> factory) {
     this.factory = factory;
+    RecordManager.addManagerInstance(this.factory.getFilename(), this);
     this.changedRecordList = new ArrayList<Change>();
     this.recordList = new ArrayList<T>();
     this.callback = this.generateCallbackRecord(this);
