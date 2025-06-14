@@ -29,5 +29,11 @@ public class Reference<T extends BaseRecord> {
     this.oppositeCallback = this.record.addReference(this, this::onDelete);
   }
 
+  private void clear() {
+    this.isExtracted = false;
+    this.record = null;
+    this.oppositeCallback = null;
+    this.referenceID = -1;
+  }
 
 }
