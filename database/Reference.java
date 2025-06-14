@@ -16,12 +16,14 @@ public class Reference<T extends BaseRecord> {
   private T record;
   private ReferenceCallback oppositeCallback;
   private ReferenceCallback callback;
+  private BaseRecord parentRecord;
 
-  public Reference(String referenceRecordManagerName) {
+  public Reference(String referenceRecordManagerName, BaseRecord parentRecord) {
     this.referenceRecordManagerName = referenceRecordManagerName;
     this.isExtracted = false;
     this.referenceID = -1;
     this.callback = this.generateCallback(this);
+    this.parentRecord = parentRecord;
     Reference.referenceList.add(this);
   }
 
@@ -44,7 +46,10 @@ public class Reference<T extends BaseRecord> {
     return this.record;
   }
 
-
+  public void deleteReference() {
+    this.oppositeCallback.handleDelete(this.parentRecord);
+    this.clear();
+  }
 
   private ReferenceCallback generateCallback(Reference<T> manager) {
     return new ReferenceCallback() {
