@@ -15,18 +15,20 @@ public class Reference<T extends BaseRecord> {
   private String referenceRecordManagerName;
   private T record;
   private ReferenceCallback oppositeCallback;
+  private ReferenceCallback callback;
 
   public Reference(String referenceRecordManagerName) {
     this.referenceRecordManagerName = referenceRecordManagerName;
     this.isExtracted = false;
     this.referenceID = -1;
+    this.callback = this.generateCallback(this);
     Reference.referenceList.add(this);
   }
 
   private void extract() {
     RecordManager<T> manager = RecordManager.get(this.referenceRecordManagerName);
     this.record = manager.get(this.referenceID);
-    this.oppositeCallback = this.record.addReference(this, this::onDelete);
+    this.oppositeCallback = this.record.addReference(this, this.callback);
   }
 
   private void clear() {
@@ -36,4 +38,13 @@ public class Reference<T extends BaseRecord> {
     this.referenceID = -1;
   }
 
+
+  private ReferenceCallback generateCallback(Reference<T> manager) {
+    return new ReferenceCallback() {
+      @Override
+      public void handleDelete(BaseRecord oppositeRecord) {
+        manager.clear();
+      }
+    };
+  }
 }
