@@ -69,7 +69,7 @@ public class RecordManager<T extends BaseRecord> {
         Change elements = new UpdateRecord(record, (_record) -> {
           manager.fileManager.write(_record.getPage(), _record.encode());
         });
-        if (this.isValidChange(elements))
+        if (!this.isValidChange(elements))
           return;
         manager.changedRecordList.add(elements);
       }
