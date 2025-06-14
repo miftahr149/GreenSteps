@@ -51,6 +51,13 @@ public class Reference<T extends BaseRecord> {
     this.clear();
   }
 
+  public void add(int referenceID) {
+    this.referenceID = referenceID;
+    if (this.isExtracted)
+      this.oppositeCallback.handleDelete(this.parentRecord);
+    this.extract();
+  }
+
   private ReferenceCallback generateCallback(Reference<T> manager) {
     return new ReferenceCallback() {
       @Override
