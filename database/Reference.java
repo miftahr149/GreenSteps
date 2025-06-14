@@ -16,5 +16,11 @@ public class Reference<T extends BaseRecord> {
   private T record;
   private ReferenceCallback oppositeCallback;
 
-
+  public Reference(String referenceRecordManagerName) {
+    this.referenceRecordManagerName = referenceRecordManagerName;
+    this.referenceID = referenceID;
+    this.isExtracted = false;
+    this.referenceID = -1;
+    Reference.referenceList.add(this);
+  }
 }
