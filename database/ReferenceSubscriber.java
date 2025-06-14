@@ -17,4 +17,9 @@ public class ReferenceSubscriber {
     };
   }
 
+  public ReferenceSubscriber(BaseRecord parentRecord) {
+    this.subscribers = new HashMap<BaseRecord, ReferenceCallback>();
+    this.parentRecord = parentRecord;
+    this.callback = generateCallback(this);
+  }
 }
