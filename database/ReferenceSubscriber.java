@@ -22,4 +22,9 @@ public class ReferenceSubscriber {
     this.parentRecord = parentRecord;
     this.callback = generateCallback(this);
   }
+
+  public ReferenceCallback add(BaseRecord record, ReferenceCallback callback) {
+    this.subscribers.put(record, callback);
+    return this.callback;
+  }
 }
