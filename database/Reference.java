@@ -38,6 +38,13 @@ public class Reference<T extends BaseRecord> {
     this.referenceID = -1;
   }
 
+  public T get() {
+    if (!this.isExtracted)
+      extract();
+    return this.record;
+  }
+
+
 
   private ReferenceCallback generateCallback(Reference<T> manager) {
     return new ReferenceCallback() {
