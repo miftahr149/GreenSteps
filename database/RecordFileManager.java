@@ -45,7 +45,7 @@ class RecordFileManager {
   }
 
   public void init() {
-    this.write(0, RecordFileManager.EMPTY_PAGE);
+    this.createNewPage();
   }
 
   public int getAvailablePage() throws Error {

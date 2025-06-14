@@ -69,7 +69,7 @@ public class RecordManager<T extends BaseRecord> {
         Change elements = new UpdateRecord(record, (_record) -> {
           manager.fileManager.write(_record.getPage(), _record.encode());
         });
-        if (manager.changedRecordList.indexOf(elements) != -1)
+        if (this.isValidChange(elements))
           return;
         manager.changedRecordList.add(elements);
       }
@@ -81,7 +81,7 @@ public class RecordManager<T extends BaseRecord> {
           manager.fileManager.release(_record.getPage());
         });
 
-        if (manager.changedRecordList.indexOf(elements) != -1)
+        if (!this.isValidChange(elements))
           return;
         manager.changedRecordList.add(elements);
       }
@@ -108,6 +108,11 @@ public class RecordManager<T extends BaseRecord> {
         }
 
         return result;
+      }
+
+      private boolean isValidChange(Change change) {
+        return manager.changedRecordList.indexOf(change) == -1
+            && manager.recordList.indexOf(change.getRecord()) != -1;
       }
     };
   }
