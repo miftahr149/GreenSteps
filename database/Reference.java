@@ -58,6 +58,15 @@ public class Reference<T extends BaseRecord> {
     this.extract();
   }
 
+  static void extractAllReference() {
+    for (Reference<?> reference : Reference.referenceList) {
+      if (reference.referenceID == -1)
+        continue;
+      reference.extract();
+    }
+  }
+
+
   private ReferenceCallback generateCallback(Reference<T> manager) {
     return new ReferenceCallback() {
       @Override
