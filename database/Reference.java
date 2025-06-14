@@ -18,9 +18,16 @@ public class Reference<T extends BaseRecord> {
 
   public Reference(String referenceRecordManagerName) {
     this.referenceRecordManagerName = referenceRecordManagerName;
-    this.referenceID = referenceID;
     this.isExtracted = false;
     this.referenceID = -1;
     Reference.referenceList.add(this);
   }
+
+  private void extract() {
+    RecordManager<T> manager = RecordManager.get(this.referenceRecordManagerName);
+    this.record = manager.get(this.referenceID);
+    this.oppositeCallback = this.record.addReference(this, this::onDelete);
+  }
+
+
 }
