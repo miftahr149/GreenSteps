@@ -20,11 +20,17 @@ public class ReferenceSubscriber {
   public ReferenceSubscriber(BaseRecord parentRecord) {
     this.subscribers = new HashMap<BaseRecord, ReferenceCallback>();
     this.parentRecord = parentRecord;
-    this.callback = generateCallback(this);
+    this.callback = this.generateCallback(this);
   }
 
   public ReferenceCallback add(BaseRecord record, ReferenceCallback callback) {
     this.subscribers.put(record, callback);
     return this.callback;
+  }
+
+  public void remove(BaseRecord record) {
+    ReferenceCallback callback = this.subscribers.get(record);
+    callback.handleDelete(this.parentRecord);
+    this.subscribers.remove(record);
   }
 }
