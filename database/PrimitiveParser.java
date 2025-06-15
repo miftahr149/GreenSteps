@@ -1,7 +1,7 @@
 package database;
 
 @FunctionalInterface
-interface ParserFunction<T> {
+interface PrimitiveParserFunction<T> {
   public T apply(String strValue);
 }
 
@@ -15,9 +15,9 @@ enum PrimitiveParser {
   INT(Integer::parseInt), FLOAT(Float::parseFloat), DOUBLE(Double::parseDouble), BOOLEAN(Boolean::parseBoolean),
   BYTE(Byte::parseByte), SHORT(Short::parseShort), CHAR(Char::parseChar);
 
-  private ParserFunction<?> func;
+  private PrimitiveParserFunction<?> func;
 
-  PrimitiveParser(ParserFunction<?> func) {
+  PrimitiveParser(PrimitiveParserFunction<?> func) {
     this.func = func;
   };
 

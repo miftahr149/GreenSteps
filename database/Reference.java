@@ -73,4 +73,17 @@ public class Reference<T extends BaseRecord> {
       }
     };
   }
+
+  public static <T extends BaseRecord> Reference<T> parseReference(String str, Object obj) {
+    int endManagerNameIndex = str.indexOf("[");
+    int strLength = str.length();
+    String strReferenceID = str.substring(endManagerNameIndex + 1, strLength - 1);
+
+    String managerName = str.substring(0, endManagerNameIndex);
+    int referenceID = Integer.parseInt(strReferenceID);
+
+    Reference<T> returnValue = new Reference<T>(managerName, (BaseRecord) obj);
+    returnValue.add(referenceID);
+    return returnValue;
+  }
 }

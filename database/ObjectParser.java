@@ -4,7 +4,26 @@ import java.lang.reflect.Field;
 import java.util.HashMap;
 import java.util.Map;
 
+@FunctionalInterface
+interface ObjectParserFunction<T> {
+  T apply(String strRecord, Object obj);
+}
+
 class ObjectParser {
+
+  private enum Parser {
+    REFERENCE(Reference::parseReference);
+
+    private ObjectParserFunction<?> func;
+
+    private Parser(ObjectParserFunction<?> func) {
+      this.func = func;
+    }
+
+    public Object parse(String str, Object obj) {
+      return this.func.apply(str, obj);
+    }
+  }
 
   static String encode(Object obj, String[] attributes) {
     StringBuilder result = new StringBuilder();
@@ -52,6 +71,17 @@ class ObjectParser {
     ObjectParser.decode(obj, mapSavedAttribute, encodeStr);
   }
 
+  private static boolean isParserAvailable(String findClassName) {
+    boolean returnValue = false;
+    for (Parser parser : Parser.values()) {
+      if (parser.toString().equals(findClassName)) {
+        returnValue = true;
+        break;
+      }
+    }
+    return returnValue;
+  }
+
   static void decode(Object obj, Map<String, String> mapSavedAttribute, String encodeStr) {
     Class<?> _class = obj.getClass();
 
@@ -62,12 +92,16 @@ class ObjectParser {
         Field field = _class.getDeclaredField(objAttribute);
         field.setAccessible(true);
         String fieldValueStr = getFieldValue(encodeStr, strAttribute);
+
+        String className = field.getType().toString().toUpperCase();
         if (field.getType().isPrimitive()) {
-          PrimitiveParser parser =
-              PrimitiveParser.valueOf(field.getType().toString().toUpperCase());
+          PrimitiveParser parser = PrimitiveParser.valueOf(className);
           field.set(obj, parser.parse(fieldValueStr));
         } else if (field.getType() == String.class) {
           field.set(obj, fieldValueStr);
+        } else if (isParserAvailable(className)) {
+          Parser parser = Parser.valueOf(className);
+          parser.parse(fieldValueStr, obj);
         } else {
           System.err.printf("Unable to decode attribute %s with type %s", objAttribute,
               field.getType());
