@@ -55,11 +55,11 @@ public abstract class BaseRecord {
     return this.attribute.id;
   }
 
-  protected <T extends BaseRecord> ArrayList<T> getReference(Class<T> className) {
-    return this.referenceSubscriber.get(className);
+  protected ReferenceCallback addReference(BaseRecord record, ReferenceCallback callback) {
+    return this.referenceSubscriber.add(record, callback);
   }
 
-  public ReferenceCallback addReference(BaseRecord record, ReferenceCallback callback) {
-    return this.referenceSubscriber.add(record, callback);
+  protected void removeAllReferences() {
+    this.referenceSubscriber.removeAll();
   }
 }
