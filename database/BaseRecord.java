@@ -1,5 +1,7 @@
 package database;
 
+import java.util.ArrayList;
+
 public abstract class BaseRecord {
   private class Attribute {
     public String[] saveAttribute = { "id" };
@@ -10,11 +12,13 @@ public abstract class BaseRecord {
   private String[] childSaveAttribute;
   private int page;
   private Attribute attribute;
+  protected ReferenceSubscriber referenceSubscriber;
 
   public BaseRecord(CallbackRecord callback, Factory<?> factory) {
     this.callback = callback;
     this.childSaveAttribute = factory.getSaveAttributes();
     this.attribute = new Attribute();
+    this.referenceSubscriber = new ReferenceSubscriber(this);
   }
 
   public String encode() {
@@ -49,5 +53,13 @@ public abstract class BaseRecord {
 
   protected int getID() {
     return this.attribute.id;
+  }
+
+  protected <T extends BaseRecord> ArrayList<T> getReference(Class<T> className) {
+    return this.referenceSubscriber.get(className);
+  }
+
+  public ReferenceCallback addReference(BaseRecord record, ReferenceCallback callback) {
+    return this.referenceSubscriber.add(record, callback);
   }
 }

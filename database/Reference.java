@@ -6,7 +6,6 @@ interface ReferenceCallback {
   void handleDelete(BaseRecord oppositeRecord);
 }
 
-
 public class Reference<T extends BaseRecord> {
   private static ArrayList<Reference<?>> referenceList = new ArrayList<Reference<?>>();
 
@@ -65,7 +64,6 @@ public class Reference<T extends BaseRecord> {
       reference.extract();
     }
   }
-
 
   private ReferenceCallback generateCallback(Reference<T> manager) {
     return new ReferenceCallback() {
