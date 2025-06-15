@@ -1,7 +1,10 @@
 package database;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Map;
+import java.util.Set;
 
 public class ReferenceSubscriber {
   Map<BaseRecord, ReferenceCallback> subscribers;
@@ -32,5 +35,14 @@ public class ReferenceSubscriber {
     ReferenceCallback callback = this.subscribers.get(record);
     callback.handleDelete(this.parentRecord);
     this.subscribers.remove(record);
+  }
+
+  public void removeAll() {
+    Set<BaseRecord> list = new HashSet<BaseRecord>();
+    list.addAll(this.subscribers.keySet());
+
+    for (BaseRecord subscriber : list) {
+      this.remove(subscriber);
+    }
   }
 }
