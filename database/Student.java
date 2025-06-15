@@ -3,11 +3,12 @@ package database;
 public class Student extends BaseRecord {
   private String name;
   private double gpa;
+  private Reference<Course> enrolled;
 
   public static Factory<Student> factory = new Factory<Student>() {
     @Override
     public String[] getSaveAttributes() {
-      return new String[] {"name", "gpa"};
+      return new String[] { "name", "gpa", "enrolled" };
     }
 
     @Override
@@ -28,6 +29,7 @@ public class Student extends BaseRecord {
 
   public Student(CallbackRecord callback) {
     super(callback, Student.factory);
+    this.enrolled = new Reference<Course>("course", this);
   }
 
   public String getName() {
@@ -46,5 +48,10 @@ public class Student extends BaseRecord {
   public void setGpa(double gpa) {
     super.callback.update(this);
     this.gpa = gpa;
+  }
+
+  public void addCourse(Course course) {
+    super.callback.update(this);
+    this.enrolled.add(course.getID());
   }
 }

@@ -9,5 +9,8 @@ public class DatabaseConfiguration {
 
   public static void configure() {
     new RecordManager<Student>(Student.factory);
+    new RecordManager<Course>(Course.factory);
+
+    Reference.extractAllReference();
   }
 }
