@@ -54,7 +54,6 @@ public class Reference<T extends BaseRecord> {
     this.referenceID = referenceID;
     if (this.isExtracted)
       this.oppositeCallback.handleDelete(this.parentRecord);
-    this.extract();
   }
 
   static void extractAllReference() {
@@ -85,5 +84,10 @@ public class Reference<T extends BaseRecord> {
     Reference<T> returnValue = new Reference<T>(managerName, (BaseRecord) obj);
     returnValue.add(referenceID);
     return returnValue;
+  }
+
+  @Override
+  public String toString() {
+    return String.format("%s[%d]", this.referenceRecordManagerName, this.referenceID);
   }
 }

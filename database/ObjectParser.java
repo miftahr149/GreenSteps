@@ -94,6 +94,11 @@ class ObjectParser {
         String fieldValueStr = getFieldValue(encodeStr, strAttribute);
 
         String className = field.getType().toString().toUpperCase();
+        String[] temp = className.split("CLASS DATABASE.");
+        if (temp.length > 0) {
+          className = temp[temp.length - 1];
+        }
+
         if (field.getType().isPrimitive()) {
           PrimitiveParser parser = PrimitiveParser.valueOf(className);
           field.set(obj, parser.parse(fieldValueStr));
@@ -104,7 +109,7 @@ class ObjectParser {
           parser.parse(fieldValueStr, obj);
         } else {
           System.err.printf("Unable to decode attribute %s with type %s", objAttribute,
-              field.getType());
+              field.getType().toString());
         }
         field.setAccessible(false);
       } catch (NoSuchFieldException e) {
