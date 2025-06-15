@@ -45,4 +45,14 @@ public class ReferenceSubscriber {
       this.remove(subscriber);
     }
   }
+
+  public <T extends BaseRecord> ArrayList<T> get(Class<T> className) {
+    ArrayList<T> result = new ArrayList<T>();
+    for (BaseRecord subscriber : this.subscribers.keySet()) {
+      if (subscriber.getClass() == className) {
+        result.add((T) subscriber);
+      }
+    }
+    return result;
+  }
 }
