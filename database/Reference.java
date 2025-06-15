@@ -29,7 +29,7 @@ public class Reference<T extends BaseRecord> {
   private void extract() {
     RecordManager<T> manager = RecordManager.get(this.referenceRecordManagerName);
     this.record = manager.get(this.referenceID);
-    this.oppositeCallback = this.record.addReference(this, this.callback);
+    this.oppositeCallback = this.record.addReference(this.parentRecord, this.callback);
   }
 
   private void clear() {
