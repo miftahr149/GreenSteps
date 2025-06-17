@@ -1,6 +1,32 @@
 package database;
 
-public class Room {
+public class Room extends BaseRecord {
   private String name;
   private float limit;
+
+  public static Factory<Room> factory = new Factory<Room>() {
+    @Override
+    public Room newInstance(CallbackRecord callback) {
+      return new Room(callback);
+    }
+
+    @Override
+    public String[] getSaveAttributes() {
+      return new String[] {"name", "limit"};
+    }
+
+    @Override
+    public String getFilename() {
+      return "room";
+    }
+
+    @Override
+    public String getFileDirname() {
+      return DatabaseConfiguration.setFileDirname(getFilename());
+    }
+  };
+
+  Room(CallbackRecord callback) {
+    super(callback, Room.factory);
+  }
 }
