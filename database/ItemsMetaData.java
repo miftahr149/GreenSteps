@@ -39,4 +39,12 @@ public class ItemsMetadata extends BaseRecord {
     super.callback.update(this);
     this.usage = usage;
   }
+
+  public String getName() {
+    return this.name;
+  }
+
+  public double getUsage() {
+    return this.usage;
+  }
 }
