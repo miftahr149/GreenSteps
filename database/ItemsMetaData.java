@@ -29,4 +29,14 @@ public class ItemsMetadata extends BaseRecord {
   ItemsMetadata(CallbackRecord callback) {
     super(callback, ItemsMetadata.factory);
   }
+
+  public void setName(String name) {
+    super.callback.update(this);
+    this.name = name;
+  }
+
+  public void setUsage(double usage) {
+    super.callback.update(this);
+    this.usage = usage;
+  }
 }
