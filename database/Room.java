@@ -40,4 +40,12 @@ public class Room extends BaseRecord {
     this.limit = limit;
   }
 
+  public String getName() {
+    return this.name;
+  }
+
+  public double getLimit() {
+    return this.limit;
+  }
+
 }
