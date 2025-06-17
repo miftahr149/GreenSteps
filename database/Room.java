@@ -2,7 +2,7 @@ package database;
 
 public class Room extends BaseRecord {
   private String name;
-  private float limit;
+  private double limit;
 
   public static Factory<Room> factory = new Factory<Room>() {
     @Override
@@ -29,4 +29,15 @@ public class Room extends BaseRecord {
   Room(CallbackRecord callback) {
     super(callback, Room.factory);
   }
+
+  public void setName(String name) {
+    super.callback.update(this);
+    this.name = name;
+  }
+
+  public void setLimit(double limit) {
+    super.callback.update(this);
+    this.limit = limit;
+  }
+
 }
