@@ -39,4 +39,12 @@ public class Item extends BaseRecord {
     super.callback.update(this);
     this.averageHours = averageHours;
   }
+
+  public int getQuantity() {
+    return this.quantity;
+  }
+
+  public int getAverageHours() {
+    return this.averageHours;
+  }
 }
