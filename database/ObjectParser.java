@@ -9,6 +9,7 @@ interface ObjectParserFunction<T> {
   T apply(String strRecord, Object obj);
 }
 
+
 class ObjectParser {
 
   private enum Parser {
@@ -106,7 +107,7 @@ class ObjectParser {
           field.set(obj, fieldValueStr);
         } else if (isParserAvailable(className)) {
           Parser parser = Parser.valueOf(className);
-          parser.parse(fieldValueStr, obj);
+          field.set(obj, parser.parse(fieldValueStr, obj));
         } else {
           System.err.printf("Unable to decode attribute %s with type %s", objAttribute,
               field.getType().toString());
