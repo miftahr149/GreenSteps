@@ -1,8 +1,8 @@
 package database;
 
 public class Item extends BaseRecord {
-  public int quantity;
-  public int averageHours;
+  private int quantity;
+  private int averageHours;
 
   public static Factory<Item> factory = new Factory<Item>() {
     @Override
