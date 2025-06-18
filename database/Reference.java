@@ -19,7 +19,11 @@ public class Reference<T extends BaseRecord> {
   private BaseRecord parentRecord;
 
   public Reference(Factory<T> factory, BaseRecord parentRecord) {
-    this.referenceRecordManagerName = factory.getFilename();
+    this(factory.getFilename(), parentRecord);
+  }
+
+  public Reference(String referenceRecordManagerName, BaseRecord parentRecord) {
+    this.referenceRecordManagerName = referenceRecordManagerName;
     this.isExtracted = false;
     this.referenceID = -1;
     this.callback = this.generateCallback(this);
