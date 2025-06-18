@@ -35,6 +35,7 @@ public class Reference<T extends BaseRecord> {
     RecordManager<T> manager = RecordManager.get(this.referenceRecordManagerName);
     this.record = manager.get(this.referenceID);
     this.oppositeCallback = this.record.addReference(this.parentRecord, this.callback);
+    this.isExtracted = true;
   }
 
   private void clear() {
@@ -59,6 +60,7 @@ public class Reference<T extends BaseRecord> {
     this.referenceID = referenceID;
     if (this.isExtracted)
       this.oppositeCallback.handleDelete(this.parentRecord);
+    this.isExtracted = false;
   }
 
   static void extractAllReference() {
