@@ -1,11 +1,17 @@
 package database;
 
-interface Factory<T extends BaseRecord> {
-  public T newInstance(CallbackRecord callback);
+abstract class Factory<T extends BaseRecord> {
+  abstract public T newInstance(CallbackRecord callback);
 
-  public String getFilename();
+  abstract public String getFilename();
 
-  public String getFileDirname();
+  abstract public String getFileDirname();
 
-  public String[] getSaveAttributes();
+  abstract public String[] getSaveAttributes();
+
+  public T load(String strRecord, int page, CallbackRecord callback) {
+    T returnValue = this.newInstance(callback);
+    returnValue.decode(strRecord, page);
+    return returnValue;
+  }
 }

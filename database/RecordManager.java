@@ -57,8 +57,7 @@ public class RecordManager<T extends BaseRecord> {
       return;
     }
 
-    T records = this.factory.newInstance(this.callback);
-    records.decode(strRecord, page);
+    T records = this.factory.load(strRecord, page, this.callback);
     this.recordList.add(records);
   }
 
