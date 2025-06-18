@@ -3,6 +3,7 @@ package database;
 public class Item extends BaseRecord {
   private int quantity;
   private int averageHours;
+  private Reference<ItemMetadata> metadata;
 
   public static Factory<Item> factory = new Factory<Item>() {
     @Override
@@ -28,6 +29,7 @@ public class Item extends BaseRecord {
 
   Item(CallbackRecord callback) {
     super(callback, Item.factory);
+    this.metadata = new Reference<>(ItemMetadata.factory, this);
   }
 
   public void setQuantity(int quantity) {
@@ -46,5 +48,13 @@ public class Item extends BaseRecord {
 
   public int getAverageHours() {
     return this.averageHours;
+  }
+
+  public String getName() {
+    return this.metadata.get().getName();
+  }
+
+  public double getUsage() {
+    return this.metadata.get().getUsage();
   }
 }
