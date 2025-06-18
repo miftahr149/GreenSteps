@@ -10,7 +10,21 @@ public class Room extends BaseRecord {
 
     @Override
     public Room newInstance(CallbackRecord callback) {
-      return new Room(callback);
+      Room returnValue = new Room(callback);
+      RecordManager<ItemMetadata> metadataManager =
+          RecordManager.get(ItemMetadata.factory.getFilename());
+      RecordManager<Item> itemManager = RecordManager.get(Item.factory.getFilename());
+      ArrayList<ItemMetadata> metadataList = metadataManager.query((_record) -> {
+        return true;
+      });
+      for (ItemMetadata metadata : metadataList) {
+        Item obj = itemManager.create();
+        obj.setRoom(returnValue);
+        obj.setItemMetadata(metadata);
+        obj.save();
+      }
+
+      return returnValue;
     }
 
     @Override
@@ -26,6 +40,13 @@ public class Room extends BaseRecord {
     @Override
     public String getFileDirname() {
       return DatabaseConfiguration.setFileDirname(getFilename());
+    }
+
+    @Override
+    public Room load(String strRecord, int page, CallbackRecord callback) {
+      Room returnValue = new Room(callback);
+      returnValue.decode(strRecord, page);
+      return returnValue;
     }
   };
 
@@ -51,4 +72,7 @@ public class Room extends BaseRecord {
     return this.limit;
   }
 
+  public ArrayList<Item> getItems() {
+    return super.referenceSubscriber.get(Item.class);
+  }
 }
