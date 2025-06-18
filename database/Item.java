@@ -13,7 +13,7 @@ public class Item extends BaseRecord {
 
     @Override
     public String[] getSaveAttributes() {
-      return new String[] {"quantity", "averageHours"};
+      return new String[] {"quantity", "averageHours", "metadata"};
     }
 
     @Override
