@@ -8,8 +8,9 @@ public class DatabaseConfiguration {
   }
 
   public static void configure() {
-    new RecordManager<Student>(Student.factory);
-    new RecordManager<Course>(Course.factory);
+    new RecordManager<Room>(Room.factory);
+    new RecordManager<Item>(Item.factory);
+    new RecordManager<ItemMetadata>(ItemMetadata.factory);
 
     Reference.extractAllReference();
   }
