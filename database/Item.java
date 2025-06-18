@@ -14,7 +14,7 @@ public class Item extends BaseRecord {
 
     @Override
     public String[] getSaveAttributes() {
-      return new String[] {"quantity", "averageHours", "metadata"};
+      return new String[] {"quantity", "averageHours", "metadata", "room"};
     }
 
     @Override
@@ -45,10 +45,12 @@ public class Item extends BaseRecord {
   }
 
   public void setItemMetadata(ItemMetadata metadata) {
+    super.callback.update(this);
     this.metadata.add(metadata.getID());
   }
 
   public void setRoom(Room room) {
+    super.callback.update(this);
     this.room.add(room.getID());
   }
 
