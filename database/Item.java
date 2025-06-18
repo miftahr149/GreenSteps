@@ -44,6 +44,14 @@ public class Item extends BaseRecord {
     this.averageHours = averageHours;
   }
 
+  public void setItemMetadata(ItemMetadata metadata) {
+    this.metadata.add(metadata.getID());
+  }
+
+  public void setRoom(Room room) {
+    this.room.add(room.getID());
+  }
+
   public int getQuantity() {
     return this.quantity;
   }
