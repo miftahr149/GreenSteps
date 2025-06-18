@@ -29,4 +29,14 @@ public class Item extends BaseRecord {
   Item(CallbackRecord callback) {
     super(callback, Item.factory);
   }
+
+  public void setQuantity(int quantity) {
+    super.callback.update(this);
+    this.quantity = quantity;
+  }
+
+  public void setAverageHours(int averageHours) {
+    super.callback.update(this);
+    this.averageHours = averageHours;
+  }
 }
