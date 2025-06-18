@@ -17,7 +17,7 @@ public class ItemMetadata extends BaseRecord {
 
     @Override
     public String getFilename() {
-      return "itemsMetadata";
+      return "itemMetadata";
     }
 
     @Override
