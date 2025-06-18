@@ -1,10 +1,13 @@
 package database;
 
+import java.util.ArrayList;
+
 public class Room extends BaseRecord {
   private String name;
   private double limit;
 
   public static Factory<Room> factory = new Factory<Room>() {
+
     @Override
     public Room newInstance(CallbackRecord callback) {
       return new Room(callback);

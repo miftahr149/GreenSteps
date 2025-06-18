@@ -4,6 +4,7 @@ public class Item extends BaseRecord {
   private int quantity;
   private int averageHours;
   private Reference<ItemMetadata> metadata;
+  private Reference<Room> room;
 
   public static Factory<Item> factory = new Factory<Item>() {
     @Override
@@ -30,6 +31,7 @@ public class Item extends BaseRecord {
   Item(CallbackRecord callback) {
     super(callback, Item.factory);
     this.metadata = new Reference<>(ItemMetadata.factory, this);
+    this.room = new Reference<>(Room.factory, this);
   }
 
   public void setQuantity(int quantity) {
