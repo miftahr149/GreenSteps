@@ -1,13 +1,13 @@
 package database;
 
-public class ItemsMetadata extends BaseRecord {
+public class ItemMetadata extends BaseRecord {
   private String name;
   private double usage;
 
-  public static Factory<ItemsMetadata> factory = new Factory<ItemsMetadata>() {
+  public static Factory<ItemMetadata> factory = new Factory<ItemMetadata>() {
     @Override
-    public ItemsMetadata newInstance(CallbackRecord callback) {
-      return new ItemsMetadata(callback);
+    public ItemMetadata newInstance(CallbackRecord callback) {
+      return new ItemMetadata(callback);
     }
 
     @Override
@@ -26,8 +26,8 @@ public class ItemsMetadata extends BaseRecord {
     }
   };
 
-  ItemsMetadata(CallbackRecord callback) {
-    super(callback, ItemsMetadata.factory);
+  ItemMetadata(CallbackRecord callback) {
+    super(callback, ItemMetadata.factory);
   }
 
   public void setName(String name) {
