@@ -6,6 +6,7 @@ interface ReferenceCallback {
   void handleDelete(BaseRecord oppositeRecord);
 }
 
+
 public class Reference<T extends BaseRecord> {
   private static ArrayList<Reference<?>> referenceList = new ArrayList<Reference<?>>();
 
@@ -17,8 +18,8 @@ public class Reference<T extends BaseRecord> {
   private ReferenceCallback callback;
   private BaseRecord parentRecord;
 
-  public Reference(String referenceRecordManagerName, BaseRecord parentRecord) {
-    this.referenceRecordManagerName = referenceRecordManagerName;
+  public Reference(Factory<T> factory, BaseRecord parentRecord) {
+    this.referenceRecordManagerName = factory.getFilename();
     this.isExtracted = false;
     this.referenceID = -1;
     this.callback = this.generateCallback(this);
