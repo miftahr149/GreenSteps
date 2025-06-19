@@ -8,6 +8,7 @@ public class DatabaseConfiguration {
   }
 
   public static void configure() {
+    SystemInfo.init();
     new RecordManager<Room>(Room.factory);
     new RecordManager<Item>(Item.factory);
     new RecordManager<ItemMetadata>(ItemMetadata.factory);

@@ -5,13 +5,13 @@ import java.util.Date;
 public class SystemInfo {
   private String[] saveAttribute = {"currentDate"};
   private RecordFileManager fileManager;
-  private String fileDirname = DatabaseConfiguration.setFileDirname("systemInfo.txt");
-  private static SystemInfo instance = new SystemInfo();
+  private String fileDirname = DatabaseConfiguration.setFileDirname("systemInfo");
+  private static SystemInfo instance;
   private int page;
 
   private CustomDate currentDate;
 
-  private SystemInfo() {
+  SystemInfo() {
     this.fileManager = new RecordFileManager(this.fileDirname);
     this.currentDate = DateParser.parse("01-2001", null);
 
@@ -30,6 +30,10 @@ public class SystemInfo {
   private void save() {
     String recordStr = ObjectParser.encode(this, this.saveAttribute);
     this.fileManager.write(this.page, recordStr);
+  }
+
+  public static void init() {
+    SystemInfo.instance = new SystemInfo();
   }
 
   public static Date getCurrentDate() {
