@@ -1,7 +1,8 @@
+package footprintCalculator;
+
 public enum Item {
-  COMPUTER(300, 0, 0),//general use
-  CEILING_UNIVERSAL_AC(3000, 0, 0),
-  PROJECTOR(100, 0, 0);
+  COMPUTER(300, 0, 0), // general use
+  CEILING_UNIVERSAL_AC(3000, 0, 0), PROJECTOR(100, 0, 0);
 
   private int kWh;
   private int quantity;
@@ -38,7 +39,7 @@ public enum Item {
   }
 
   public static void displayItem() {
-    for(Item item: Item.values()) {
+    for (Item item : Item.values()) {
       System.out.println(item + " " + item.getQuantity() + " " + item.getAvgHours() + "\n");
     }
   }
