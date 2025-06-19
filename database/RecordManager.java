@@ -72,6 +72,7 @@ public class RecordManager<T extends BaseRecord> {
         });
         if (!this.isValidChange(elements))
           return;
+        manager.managerSave();
         manager.changedRecordList.add(elements);
       }
 
@@ -136,17 +137,21 @@ public class RecordManager<T extends BaseRecord> {
     return returnValue;
   }
 
+  private void managerSave() {
+    if (!this.isManagerChange)
+      return;
+    String strManager = ObjectParser.encode(this, this.saveAttributes);
+    this.fileManager.write(0, strManager);
+    this.isManagerChange = false;
+  }
+
   public void save() {
-    if (this.isManagerChange) {
-      String strManager = ObjectParser.encode(this, this.saveAttributes);
-      this.fileManager.write(0, strManager);
-    }
+    this.managerSave();
 
     for (Change change : this.changedRecordList) {
       change.commit();
     }
     this.changedRecordList.clear();
-    this.isManagerChange = false;
   }
 
   public ArrayList<T> query(RecordQuery<T> callback) {
