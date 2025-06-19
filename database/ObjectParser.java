@@ -1,7 +1,6 @@
 package database;
 
 import java.lang.reflect.Field;
-import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -14,7 +13,8 @@ interface ObjectParserFunction<T> {
 class ObjectParser {
 
   private enum Parser {
-    REFERENCE(Reference.class, Reference::parseReference), DATE(Date.class, DateParser::parse);
+    REFERENCE(Reference.class, Reference::parseReference), DATE(CustomDate.class,
+        DateParser::parse);
 
     private ObjectParserFunction<?> func;
     private Class<?> classType;

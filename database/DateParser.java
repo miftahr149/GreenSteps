@@ -7,10 +7,11 @@ import java.util.Date;
 class DateParser {
   private static SimpleDateFormat dateFormat = new SimpleDateFormat("MM-yyyy");
 
-  public static Date parse(String valueStr, Object obj) {
-    Date returnValue = null;
+  public static CustomDate parse(String valueStr, Object obj) {
+    CustomDate returnValue = null;
     try {
-      returnValue = DateParser.dateFormat.parse(valueStr);
+      Date date = DateParser.dateFormat.parse(valueStr);
+      returnValue = new CustomDate(date);
     } catch (ParseException e) {
       System.err.printf("Unable to parse %s to MM-yyyy format\n", valueStr);
     }

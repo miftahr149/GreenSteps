@@ -9,7 +9,7 @@ public class SystemInfo {
   private static SystemInfo instance = new SystemInfo();
   private int page;
 
-  private Date currentDate;
+  private CustomDate currentDate;
 
   private SystemInfo() {
     this.fileManager = new RecordFileManager(this.fileDirname);
@@ -33,11 +33,11 @@ public class SystemInfo {
   }
 
   public static Date getCurrentDate() {
-    return SystemInfo.instance.currentDate;
+    return SystemInfo.instance.currentDate.dateValue();
   }
 
   public static void setCurrentDate(Date date) {
-    SystemInfo.instance.currentDate = date;
+    SystemInfo.instance.currentDate.setDate(date);
     SystemInfo.instance.save();
   }
 }
