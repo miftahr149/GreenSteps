@@ -17,6 +17,7 @@ public class SystemInfo {
 
     if (!this.fileManager.isFileExist()) {
       this.fileManager.init();
+      this.save();
     }
     this.fileManager.extractFromFile(this::handleExtractFile);
   }
@@ -31,7 +32,7 @@ public class SystemInfo {
     this.fileManager.write(this.page, recordStr);
   }
 
-  public static Date getCurrenDate() {
+  public static Date getCurrentDate() {
     return SystemInfo.instance.currentDate;
   }
 
