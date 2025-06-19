@@ -1,6 +1,7 @@
 package database;
 
 import java.lang.reflect.Field;
+import java.sql.Date;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -13,16 +14,34 @@ interface ObjectParserFunction<T> {
 class ObjectParser {
 
   private enum Parser {
-    REFERENCE(Reference::parseReference), DATE(DateParser::parse);
+    REFERENCE(Reference.class, Reference::parseReference), DATE(Date.class, DateParser::parse);
 
     private ObjectParserFunction<?> func;
+    private Class<?> classType;
 
-    private Parser(ObjectParserFunction<?> func) {
+    private Parser(Class<?> classType, ObjectParserFunction<?> func) {
       this.func = func;
+      this.classType = classType;
     }
 
     public Object parse(String str, Object obj) {
       return this.func.apply(str, obj);
+    }
+
+    @Override
+    public String toString() {
+      return this.classType.toString();
+    }
+
+    public static Parser classOf(String className) {
+      Parser returnValue = null;
+      for (Parser constant : Parser.values()) {
+        if (constant.classType.toString().equals(className)) {
+          returnValue = constant;
+          break;
+        }
+      }
+      return returnValue;
     }
   }
 
@@ -94,19 +113,15 @@ class ObjectParser {
         field.setAccessible(true);
         String fieldValueStr = getFieldValue(encodeStr, strAttribute);
 
-        String className = field.getType().toString().toUpperCase();
-        String[] temp = className.split("CLASS DATABASE.");
-        if (temp.length > 0) {
-          className = temp[temp.length - 1];
-        }
+        String className = field.getType().toString();
 
         if (field.getType().isPrimitive()) {
-          PrimitiveParser parser = PrimitiveParser.valueOf(className);
+          PrimitiveParser parser = PrimitiveParser.valueOf(className.toUpperCase());
           field.set(obj, parser.parse(fieldValueStr));
         } else if (field.getType() == String.class) {
           field.set(obj, fieldValueStr);
         } else if (isParserAvailable(className)) {
-          Parser parser = Parser.valueOf(className);
+          Parser parser = Parser.classOf(className);
           field.set(obj, parser.parse(fieldValueStr, obj));
         } else {
           System.err.printf("Unable to decode attribute %s with type %s", objAttribute,
