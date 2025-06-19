@@ -36,7 +36,7 @@ public class SystemInfo {
   }
 
   public static void setCurrentDate(Date date) {
-    SystemInfo.instance.date = date;
+    SystemInfo.instance.currentDate = date;
     SystemInfo.instance.save();
   }
 }
