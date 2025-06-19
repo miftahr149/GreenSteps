@@ -2,11 +2,11 @@ package database;
 
 import java.util.Date;
 
-class SystemInfo {
+public class SystemInfo {
   private String[] saveAttribute = {"currentDate"};
   private RecordFileManager fileManager;
   private String fileDirname = DatabaseConfiguration.setFileDirname("systemInfo.txt");
-  private SystemInfo instance = new SystemInfo();
+  private static SystemInfo instance = new SystemInfo();
   private int page;
 
   private Date currentDate;
@@ -31,4 +31,12 @@ class SystemInfo {
     this.fileManager.write(this.page, recordStr);
   }
 
+  public static Date getCurrenDate() {
+    return SystemInfo.instance.currentDate;
+  }
+
+  public static void setCurrentDate(Date date) {
+    SystemInfo.instance.date = date;
+    SystemInfo.instance.save();
+  }
 }
