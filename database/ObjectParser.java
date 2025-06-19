@@ -13,7 +13,7 @@ interface ObjectParserFunction<T> {
 class ObjectParser {
 
   private enum Parser {
-    REFERENCE(Reference::parseReference);
+    REFERENCE(Reference::parseReference), DATE(DateParser::parse);
 
     private ObjectParserFunction<?> func;
 
