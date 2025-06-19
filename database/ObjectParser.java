@@ -1,7 +1,7 @@
 package database;
 
 import java.lang.reflect.Field;
-import java.sql.Date;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -124,14 +124,14 @@ class ObjectParser {
           Parser parser = Parser.classOf(className);
           field.set(obj, parser.parse(fieldValueStr, obj));
         } else {
-          System.err.printf("Unable to decode attribute %s with type %s", objAttribute,
+          System.err.printf("Unable to decode attribute %s with type %s\n", objAttribute,
               field.getType().toString());
         }
         field.setAccessible(false);
       } catch (NoSuchFieldException e) {
-        System.err.printf("There is no such thing as field %s in %s", objAttribute, _class);
+        System.err.printf("There is no such thing as field %s in %s\n", objAttribute, _class);
       } catch (IllegalAccessException e) {
-        System.err.printf("Unable to access field %s", objAttribute);
+        System.err.printf("Unable to access field %s\n", objAttribute);
       }
     }
   }
