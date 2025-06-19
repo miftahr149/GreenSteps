@@ -41,4 +41,12 @@ public class MonthlyUsage extends BaseRecord {
     super.callback.update(this);
     this.electricityUsage = electricityUsage;
   }
+
+  public Date getDate() {
+    return this.date.dateValue();
+  }
+
+  public Double getElectricityUsage() {
+    return this.electricityUsage;
+  }
 }
