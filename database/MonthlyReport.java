@@ -1,5 +1,6 @@
 package database;
 
+import java.util.Date;
 
 public class MonthlyReport extends BaseRecord {
   private CustomDate date;
@@ -29,5 +30,9 @@ public class MonthlyReport extends BaseRecord {
 
   MonthlyReport(CallbackRecord callback) {
     super(callback, MonthlyReport.factory);
+  }
+
+  public void setDate(Date date) {
+    super.callback.update(this);
   }
 }
