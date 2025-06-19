@@ -26,4 +26,9 @@ class SystemInfo {
     ObjectParser.decode(this, this.saveAttribute, recordStr);
   }
 
+  private void save() {
+    String recordStr = ObjectParser.encode(this, this.saveAttribute);
+    this.fileManager.write(this.page, recordStr);
+  }
+
 }
