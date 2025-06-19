@@ -34,5 +34,11 @@ public class MonthlyReport extends BaseRecord {
 
   public void setDate(Date date) {
     super.callback.update(this);
+    this.date.setDate(date);
+  }
+
+  public void setTotalCarbonFootprint(double totalCarbonFootprint) {
+    this.callback.update(this);
+    this.totalCarbonFootprint = totalCarbonFootprint;
   }
 }
