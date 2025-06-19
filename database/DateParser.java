@@ -10,10 +10,14 @@ class DateParser {
   public static Date parse(String valueStr, Object obj) {
     Date returnValue = null;
     try {
-      returnValue = dateFormat.parse(valueStr);
+      returnValue = DateParser.dateFormat.parse(valueStr);
     } catch (ParseException e) {
       System.err.printf("Unable to parse %s to MM-yyyy format\n", valueStr);
     }
     return returnValue;
+  }
+
+  public static String format(Date date) {
+    return DateParser.dateFormat.format(date);
   }
 }
