@@ -1,10 +1,8 @@
 package database;
 
-import java.util.ArrayList;
-
 public abstract class BaseRecord {
   private class Attribute {
-    public String[] saveAttribute = { "id" };
+    public String[] saveAttribute = {"id"};
     public int id;
   }
 

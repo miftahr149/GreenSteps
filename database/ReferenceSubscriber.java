@@ -50,7 +50,9 @@ public class ReferenceSubscriber {
     ArrayList<T> result = new ArrayList<T>();
     for (BaseRecord subscriber : this.subscribers.keySet()) {
       if (subscriber.getClass() == className) {
-        result.add((T) subscriber);
+        @SuppressWarnings("unchecked")
+        T temp = (T) subscriber;
+        result.add(temp);
       }
     }
     return result;

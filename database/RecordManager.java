@@ -33,7 +33,9 @@ public class RecordManager<T extends BaseRecord> {
 
   static public <U extends BaseRecord> RecordManager<U> get(String name) {
     RecordManager<?> result = RecordManager.managerInstanceList.get(name);
-    return (RecordManager<U>) result;
+    @SuppressWarnings("unchecked")
+    RecordManager<U> returnValue = (RecordManager<U>) result;
+    return returnValue;
   }
 
   public RecordManager(Factory<T> factory) {
