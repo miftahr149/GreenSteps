@@ -1,5 +1,7 @@
 package database;
 
+import java.util.Date;
+
 public class MonthlyUsage extends BaseRecord {
   private CustomDate date;
   private double electricityUsage;
@@ -28,5 +30,15 @@ public class MonthlyUsage extends BaseRecord {
 
   MonthlyUsage(CallbackRecord callback) {
     super(callback, MonthlyUsage.factory);
+  }
+
+  public void setDate(Date date) {
+    super.callback.update(this);
+    this.date.setDate(date);
+  }
+
+  public void setElectricityUsage(double electricityUsage) {
+    super.callback.update(this);
+    this.electricityUsage = electricityUsage;
   }
 }
