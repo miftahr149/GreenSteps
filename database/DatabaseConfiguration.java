@@ -11,6 +11,8 @@ public class DatabaseConfiguration {
     new RecordManager<Room>(Room.factory);
     new RecordManager<Item>(Item.factory);
     new RecordManager<ItemMetadata>(ItemMetadata.factory);
+    new RecordManager<MonthlyUsage>(MonthlyUsage.factory);
+    new RecordManager<MonthlyReport>(MonthlyReport.factory);
 
     Reference.extractAllReference();
   }

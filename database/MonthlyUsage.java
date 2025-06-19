@@ -5,6 +5,7 @@ import java.util.Date;
 public class MonthlyUsage extends BaseRecord {
   private CustomDate date;
   private double electricityUsage;
+  private double carbonFootprint;
   private Reference<Room> room;
   private Reference<MonthlyReport> monthlyReport;
 
@@ -16,7 +17,7 @@ public class MonthlyUsage extends BaseRecord {
 
     @Override
     public String[] getSaveAttributes() {
-      return new String[] {"date", "electricityUsage", "room", "monthlyReport"};
+      return new String[] {"date", "electricityUsage", "room", "monthlyReport", "carbonFootprint"};
     }
 
     @Override
