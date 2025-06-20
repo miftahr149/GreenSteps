@@ -133,6 +133,7 @@ public class RecordManager<T extends BaseRecord> {
     int recordID = this.setCreatedIDRecord();
     int recordPage = this.fileManager.getAvailablePage();
     returnValue.create(recordID, recordPage);
+    this.factory.onCreate(returnValue);
 
     return returnValue;
   }

@@ -10,7 +10,11 @@ public class Room extends BaseRecord {
 
     @Override
     public Room newInstance(CallbackRecord callback) {
-      Room returnValue = new Room(callback);
+      return new Room(callback);
+    }
+
+    @Override
+    public void onCreate(Room createdRoom) {
       RecordManager<ItemMetadata> metadataManager =
           RecordManager.get(ItemMetadata.factory.getFilename());
       RecordManager<Item> itemManager = RecordManager.get(Item.factory.getFilename());
@@ -19,12 +23,10 @@ public class Room extends BaseRecord {
       });
       for (ItemMetadata metadata : metadataList) {
         Item obj = itemManager.create();
-        obj.setRoom(returnValue);
+        obj.setRoom(createdRoom);
         obj.setItemMetadata(metadata);
         obj.save();
       }
-
-      return returnValue;
     }
 
     @Override

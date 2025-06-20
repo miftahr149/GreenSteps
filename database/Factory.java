@@ -14,4 +14,6 @@ abstract class Factory<T extends BaseRecord> {
     returnValue.decode(strRecord, page);
     return returnValue;
   }
+
+  public void onCreate(T record) {};
 }

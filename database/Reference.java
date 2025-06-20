@@ -57,11 +57,16 @@ public class Reference<T extends BaseRecord> {
     this.clear();
   }
 
-  public void add(int referenceID) {
+  private void setReferenceID(int referenceID) {
     this.referenceID = referenceID;
+  }
+
+  public void add(int referenceID) {
+    this.setReferenceID(referenceID);
     if (this.isExtracted)
       this.oppositeCallback.handleDelete(this.parentRecord);
-    this.isExtracted = false;
+    this.extract();
+    this.isExtracted = true;
   }
 
   static void extractAllReference() {
@@ -90,7 +95,7 @@ public class Reference<T extends BaseRecord> {
     int referenceID = Integer.parseInt(strReferenceID);
 
     Reference<T> returnValue = new Reference<T>(managerName, (BaseRecord) obj);
-    returnValue.add(referenceID);
+    returnValue.setReferenceID(referenceID);
     return returnValue;
   }
 
