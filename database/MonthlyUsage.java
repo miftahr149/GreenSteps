@@ -35,6 +35,7 @@ public class MonthlyUsage extends BaseRecord {
     super(callback, MonthlyUsage.factory);
     this.room = new Reference<>(Room.factory.getFilename(), this);
     this.monthlyReport = new Reference<>(MonthlyReport.factory.getFilename(), this);
+    this.date = new CustomDate();
   }
 
   public void setDate(Date date) {
