@@ -17,7 +17,7 @@ interface OptionFunction {
 
 public class Main {
 
-  public static final int maxLength = 20;
+  public static final int maxLength = 40;
   public static final Map<String, OptionFunction> optionList = new HashMap<>() {
     {
       put("Option1", Main::func1);
@@ -50,9 +50,14 @@ public class Main {
   public static void displayOption() {
     int count = 1;
 
+    System.out.println("Option: ");
+
     for (Map.Entry<String, OptionFunction> set : optionList.entrySet()) {
       System.out.printf("[%d] %s\n", count++, set.getKey());
     }
+
+    String border = "-".repeat(maxLength);
+    System.out.println(border);
   }
 
   public static OptionFunction getUserOption(Scanner input)
@@ -85,6 +90,7 @@ public class Main {
 
     try {
       func = getUserOption(input);
+      System.out.println("\033[H\033[2J");
       func.execute();
     } catch (InputMismatchException e) {
       System.out.println("\033[H\033[2J");
