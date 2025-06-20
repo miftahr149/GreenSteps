@@ -1,6 +1,7 @@
 package database;
 
-import java.util.ArrayList;
+import java.util.Set;
+import java.util.HashSet;
 
 interface ReferenceCallback {
   void handleDelete(BaseRecord oppositeRecord);
@@ -8,7 +9,7 @@ interface ReferenceCallback {
 
 
 public class Reference<T extends BaseRecord> {
-  private static ArrayList<Reference<?>> referenceList = new ArrayList<Reference<?>>();
+  private static Set<Reference<?>> referenceList = new HashSet<Reference<?>>();
 
   private int referenceID;
   private boolean isExtracted;
@@ -65,7 +66,7 @@ public class Reference<T extends BaseRecord> {
 
   static void extractAllReference() {
     for (Reference<?> reference : Reference.referenceList) {
-      if (reference.referenceID == -1)
+      if (reference.referenceID == -1 || reference.isExtracted)
         continue;
       reference.extract();
     }
