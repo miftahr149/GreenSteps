@@ -3,6 +3,9 @@ package app;
 import database.DatabaseConfiguration;
 import database.RecordManager;
 import database.ItemMetadata;
+import database.MonthlyReport;
+import database.MonthlyUsage;
+import database.Item;
 import database.Room;
 import database.SystemInfo;
 
@@ -44,11 +47,42 @@ class TestGenerateRoomDummy implements TestScenario {
 }
 
 
+class TestChangeReference implements TestScenario {
+  @Override
+  public void test() {
+    RecordManager<Room> roomManager = RecordManager.get("room");
+    RecordManager<MonthlyUsage> monthlyUsageManager = RecordManager.get("monthlyUsage");
+
+    Room room = roomManager.create();
+
+    MonthlyUsage monthlyUsage = monthlyUsageManager.create();
+    monthlyUsage.setDate(SystemInfo.getCurrentDate());
+
+    double totalUsage = 0;
+    room.setName("MPK-2");
+    for (Item item : room.getItems()) {
+      item.setAverageHours(2);
+      item.setQuantity(5);
+      item.save();
+      totalUsage += item.getUsage() * item.getAverageHours() * item.getQuantity() * 30;
+    }
+    monthlyUsage.setRoom(room);
+    monthlyUsage.setElectricityUsage(totalUsage);
+
+    roomManager.save();
+    monthlyUsageManager.save();
+  }
+}
+
+
 public class DatabaseExample {
   public static void main(String[] args) {
     DatabaseConfiguration.configure();
     SystemInfo.getCurrentDate();
-    TestScenario scenario = new TestGenerateRoomDummy();
-    scenario.test();
+    TestScenario scenario1 = new TestGenerateRoomDummy();
+    TestScenario scenario2 = new TestChangeReference();
+
+    scenario1.test();
+    scenario2.test();
   }
 }
