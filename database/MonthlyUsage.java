@@ -58,11 +58,23 @@ public class MonthlyUsage extends BaseRecord {
     this.monthlyReport.add(monthlyReport.getID());
   }
 
+  public void setCarbonFootprint(double carbonFootprint) {
+    this.carbonFootprint = carbonFootprint;
+  }
+
   public Date getDate() {
     return this.date.dateValue();
   }
 
-  public Double getElectricityUsage() {
+  public double getElectricityUsage() {
     return this.electricityUsage;
+  }
+
+  public double getCarbonFootprint() {
+    return this.carbonFootprint;
+  }
+
+  public String getRoomName() {
+    return this.room.get().getName();
   }
 }
