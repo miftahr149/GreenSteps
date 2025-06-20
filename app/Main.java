@@ -1,10 +1,37 @@
 package app;
 
+
+import java.io.IOException;
+import java.util.HashMap;
+import java.util.InputMismatchException;
+import java.util.Map;
+import java.util.Set;
+import java.util.Scanner;
 import database.DatabaseConfiguration;
+
+@FunctionalInterface
+interface OptionFunction {
+  void execute();
+}
+
 
 public class Main {
 
-  public static final int maxLength = 60;
+  public static final int maxLength = 20;
+  public static final Map<String, OptionFunction> optionList = new HashMap<>() {
+    {
+      put("Option1", Main::func1);
+      put("Option2", Main::func2);
+    }
+  };
+
+  public static void func1() {
+    System.out.println("This is function 1");
+  }
+
+  public static void func2() {
+    System.out.println("This is function 2");
+  }
 
   public static void displayHeading() {
     String title = "GreenSteps";
@@ -20,12 +47,71 @@ public class Main {
     System.out.println(border);
   }
 
-  public static void displayMenu() {
+  public static void displayOption() {
+    int count = 1;
 
+    for (Map.Entry<String, OptionFunction> set : optionList.entrySet()) {
+      System.out.printf("[%d] %s\n", count++, set.getKey());
+    }
+  }
+
+  public static OptionFunction getUserOption(Scanner input)
+      throws InputMismatchException, IndexOutOfBoundsException {
+    int userInput;
+
+    System.out.printf("Please input your option [1 - %d]: ", optionList.size());
+    userInput = input.nextInt();
+    input.nextLine();
+
+    if (userInput > optionList.size() || userInput <= 0) {
+      throw new IndexOutOfBoundsException("Unavailable option! please choose appropriate option");
+    }
+
+    Set<Map.Entry<String, OptionFunction>> optionSet = optionList.entrySet();
+    @SuppressWarnings("unchecked")
+    Map.Entry<String, OptionFunction> optionEntry =
+        (Map.Entry<String, OptionFunction>) optionSet.toArray()[userInput - 1];
+
+    return optionEntry.getValue();
+  }
+
+  public static void displayMenu() throws IOException {
+    Scanner input = new Scanner(System.in);
+
+
+    displayHeading();
+    displayOption();
+    OptionFunction func;
+
+    try {
+      func = getUserOption(input);
+      func.execute();
+    } catch (InputMismatchException e) {
+      System.out.println("\033[H\033[2J");
+      System.out.println("Invalid format! please input the correct format");
+      displayMenu();
+    } catch (IndexOutOfBoundsException e) {
+      System.out.println("\033[H\033[2J");
+      System.out.println(e.getMessage());
+      displayMenu();
+    }
+
+    while (true) {
+      System.out.print("Continue [y/n]: ");
+      String userInput = input.nextLine();
+      userInput = userInput.toLowerCase();
+      if ("y".equals(userInput) || "n".equals(userInput)) {
+        System.out.println("\033[H\033[2J");
+        if ("y".equals(userInput))
+          displayMenu();
+        break;
+      }
+      System.out.println("incorrect option, please use appropriate option");
+    }
   }
 
 
-  public static void main(String[] args) {
+  public static void main(String[] args) throws IOException {
     DatabaseConfiguration.configure();
     displayMenu();
   }
