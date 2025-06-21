@@ -2,8 +2,11 @@ package app;
 
 import java.util.Scanner;
 import database.DatabaseConfiguration;
+import database.Item;
 import database.ItemMetadata;
 import database.RecordManager;
+import database.RecordQuery;
+import database.Room;
 
 public class AddItemMetadata {
 
@@ -55,15 +58,31 @@ public class AddItemMetadata {
     return returnValue;
   }
 
+  public static void addItemToAllRoom(ItemMetadata metadata, RecordManager<Room> roomManager,
+      RecordManager<Item> itemManager) {
+    RecordQuery<Room> queryFunction = (Room queryRecord) -> {
+      return true;
+    };
+    for (Room room : roomManager.query(queryFunction)) {
+      Item item = itemManager.create();
+      item.setRoom(room);
+      item.setItemMetadata(metadata);
+    }
+    itemManager.save();
+  }
+
   public static void main(String[] args) {
     DatabaseConfiguration.configure();
     RecordManager<ItemMetadata> metadataManager = RecordManager.get("itemMetadata");
+    RecordManager<Room> roomManager = RecordManager.get("room");
+    RecordManager<Item> itemManager = RecordManager.get("item");
 
     Scanner input = new Scanner(System.in);
     int numItem = getNumItem(input);
     for (int iter = 0; iter < numItem; iter++) {
       System.out.printf("Items #%d\n", iter + 1);
-      createItemMetadata(input, metadataManager);
+      ItemMetadata result = createItemMetadata(input, metadataManager);
+      addItemToAllRoom(result, roomManager, itemManager);
     }
   }
 }
