@@ -58,12 +58,13 @@ public class Simulation {
       int averageHours = getRandomNumber();
       item.setAverageHours(averageHours);
       totalElectricityUsage += getMonthlyUsage(item);
+      item.save();
     }
 
     MonthlyUsage returnValue = usageManager.create();
     returnValue.setElectricityUsage(totalElectricityUsage);
     returnValue.setRoom(room);
-    returnValue.setDate(null);
+    returnValue.setDate(SystemInfo.getCurrentDate());
 
     return returnValue;
   }
