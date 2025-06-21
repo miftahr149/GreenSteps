@@ -37,7 +37,7 @@ public class AddItemMetadata {
 
     while (true) {
       try {
-        System.out.println("Item's electricty usage per hour (kwh): ");
+        System.out.print("Item's electricty usage per hour (kwh): ");
         String temp = input.nextLine();
         itemElectricityUsage = Double.parseDouble(temp);
         break;
@@ -76,8 +76,8 @@ public class AddItemMetadata {
     RecordManager<ItemMetadata> metadataManager = RecordManager.get("itemMetadata");
     RecordManager<Room> roomManager = RecordManager.get("room");
     RecordManager<Item> itemManager = RecordManager.get("item");
-
     Scanner input = new Scanner(System.in);
+
     int numItem = getNumItem(input);
     for (int iter = 0; iter < numItem; iter++) {
       System.out.printf("Items #%d\n", iter + 1);
