@@ -2,19 +2,25 @@ package app;
 
 import java.util.Scanner;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 
 import database.DatabaseConfiguration;
 import database.MonthlyUsage;
 import database.Room;
+import database.SystemInfo;
 import database.RecordManager;
 import database.RecordQuery;
 import database.MonthlyReport;
 import database.Item;
 
 public class Simulation {
-  private static RecordManager<Room> roomManager = RecordManager.get("room");
-  private static RecordManager<MonthlyReport> reportManager = RecordManager.get("monthlyReport");
-  private static RecordManager<MonthlyUsage> usageManager = RecordManager.get("monthlyUsage");
+  private static final RecordManager<Room> roomManager = RecordManager.get("room");
+  private static final RecordManager<MonthlyReport> reportManager =
+      RecordManager.get("monthlyReport");
+  private static final RecordManager<MonthlyUsage> usageManager = RecordManager.get("monthlyUsage");
+  private static final int minAverageHours = 2;
+  private static final int maxAverageHours = 10;
 
   private static int getNumMonth(Scanner input) {
     int month;
@@ -30,10 +36,36 @@ public class Simulation {
     return month;
   }
 
-  private static MonthlyUsage generateMonthlyUsage(Room room) {
-    for (Item item : room.getItems()) {
+  private static int getRandomNumber() {
+    double result = Math.random() * (maxAverageHours - minAverageHours);
+    return (int) result;
+  }
 
+  private static double getMonthlyUsage(Item item) {
+    return item.getUsage() * item.getAverageHours() * item.getQuantity();
+  }
+
+  private static Date incrementDateMonth(Date date, int month) {
+    Calendar c = Calendar.getInstance();
+    c.setTime(date);
+    c.add(Calendar.MONTH, month);
+    return c.getTime();
+  }
+
+  private static MonthlyUsage generateMonthlyUsage(Room room) {
+    double totalElectricityUsage = 0;
+    for (Item item : room.getItems()) {
+      int averageHours = getRandomNumber();
+      item.setAverageHours(averageHours);
+      totalElectricityUsage += getMonthlyUsage(item);
     }
+
+    MonthlyUsage returnValue = usageManager.create();
+    returnValue.setElectricityUsage(totalElectricityUsage);
+    returnValue.setRoom(room);
+    returnValue.setDate(null);
+
+    return returnValue;
   }
 
   private static void generateMonthlyReport() {
@@ -53,6 +85,8 @@ public class Simulation {
     int month = getNumMonth(input);
     for (int i = 0; i < month; i++) {
       generateMonthlyReport();
+      Date newDate = incrementDateMonth(SystemInfo.getCurrentDate(), 1);
+      SystemInfo.setCurrentDate(newDate);
     }
     input.close();
   }
