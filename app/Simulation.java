@@ -1,7 +1,6 @@
 package app;
 
 import java.util.Scanner;
-import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 
@@ -54,6 +53,7 @@ public class Simulation {
 
   private static MonthlyUsage generateMonthlyUsage(Room room) {
     double totalElectricityUsage = 0;
+
     for (Item item : room.getItems()) {
       int averageHours = getRandomNumber();
       item.setAverageHours(averageHours);
@@ -61,8 +61,11 @@ public class Simulation {
       item.save();
     }
 
+    double carbonFootprint = 0.758 * totalElectricityUsage;
+
     MonthlyUsage returnValue = usageManager.create();
     returnValue.setElectricityUsage(totalElectricityUsage);
+    returnValue.setCarbonFootprint(carbonFootprint);
     returnValue.setRoom(room);
     returnValue.setDate(SystemInfo.getCurrentDate());
 
@@ -74,9 +77,19 @@ public class Simulation {
       return true;
     };
 
+    double totalCarbonFootprint = 0;
+    MonthlyReport report = reportManager.create();
+
     for (Room room : roomManager.query(roomQuery)) {
-      generateMonthlyUsage(room);
+      MonthlyUsage monthlyUsage = generateMonthlyUsage(room);
+      monthlyUsage.setMonthlyReport(report);
+      totalCarbonFootprint += monthlyUsage.getCarbonFootprint();
     }
+    usageManager.save();
+
+    report.setDate(SystemInfo.getCurrentDate());
+    report.setTotalCarbonFootprint(totalCarbonFootprint);
+    report.save();
   }
 
   public static void main(String[] args) {
