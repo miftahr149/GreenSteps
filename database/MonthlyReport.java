@@ -14,7 +14,7 @@ public class MonthlyReport extends BaseRecord {
 
     @Override
     public String[] getSaveAttributes() {
-      return new String[] {};
+      return new String[] {"date", "totalCarbonFootprint"};
     }
 
     @Override
@@ -30,6 +30,7 @@ public class MonthlyReport extends BaseRecord {
 
   MonthlyReport(CallbackRecord callback) {
     super(callback, MonthlyReport.factory);
+    this.date = new CustomDate();
   }
 
   public void setDate(Date date) {
