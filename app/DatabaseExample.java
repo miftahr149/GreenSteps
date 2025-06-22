@@ -75,12 +75,30 @@ class TestChangeReference implements TestScenario {
 }
 
 
+class TestCreateRoom implements TestScenario {
+  private String roomName;
+
+  public TestCreateRoom(String roomName) {
+    this.roomName = roomName;
+  }
+
+  @Override
+  public void test() {
+    RecordManager<Room> roomManager = RecordManager.get("room");
+    Room room = roomManager.create();
+    room.setName(roomName);
+    room.save();
+  }
+}
+
+
 public class DatabaseExample {
   public static void main(String[] args) {
     DatabaseConfiguration.configure();
     SystemInfo.getCurrentDate();
-    TestScenario scenario1 = new TestGenerateRoomDummy();
-    TestScenario scenario2 = new TestChangeReference();
+
+    TestScenario scenario1 = new TestCreateRoom("MPK-1");
+    TestScenario scenario2 = new TestCreateRoom("MPK-2");
 
     scenario1.test();
     scenario2.test();
