@@ -1,2 +1,2 @@
 # GreenSteps
-GreenSteps is a system that uses gamified elements to help students in reducing their carbon footprint. The system has a levelling system where students can level up if they produce less carbon footprint in specified timeframe. In addition to this, students also receive points where they can redeem stuff.
+GreenSteps is a system that helps universities monitor and manage their carbon footprint from electricity. This system will generate a monthly report in a form of .txt, displaying the amount of carbon footprint produced by universities. It also allows the admin to limit the usage of electricity in certain rooms (e.g Air Conditioner, Lamp, etc).
