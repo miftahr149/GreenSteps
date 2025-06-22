@@ -14,10 +14,9 @@ import database.MonthlyReport;
 import database.Item;
 
 public class Simulation {
-  private static final RecordManager<Room> roomManager = RecordManager.get("room");
-  private static final RecordManager<MonthlyReport> reportManager =
-      RecordManager.get("monthlyReport");
-  private static final RecordManager<MonthlyUsage> usageManager = RecordManager.get("monthlyUsage");
+  private static RecordManager<Room> roomManager;
+  private static RecordManager<MonthlyReport> reportManager;
+  private static RecordManager<MonthlyUsage> usageManager;
   private static final int minAverageHours = 2;
   private static final int maxAverageHours = 10;
 
@@ -25,6 +24,7 @@ public class Simulation {
     int month;
     while (true) {
       try {
+        System.out.print("the amount of month to be generated [in digit]: ");
         String temp = input.nextLine();
         month = Integer.parseInt(temp);
         break;
@@ -94,6 +94,9 @@ public class Simulation {
 
   public static void main(String[] args) {
     DatabaseConfiguration.configure();
+    roomManager = RecordManager.get("room");
+    usageManager = RecordManager.get("monthlyUsage");
+    reportManager = RecordManager.get("monthlyReport");
     Scanner input = new Scanner(System.in);
 
     int month = getNumMonth(input);
