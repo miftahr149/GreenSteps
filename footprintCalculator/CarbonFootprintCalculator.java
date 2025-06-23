@@ -1,54 +1,40 @@
 package footprintCalculator;
 
+import database.RecordManager;
+import database.RecordQuery;
+import database.DatabaseConfiguration;
+import database.MonthlyReport;
+import database.Room;
+import database.Item;
+
 // carbon footprint per watt == kilograms of CO2 equivalent per kilowatt-hour (kg CO2e/kWh)
 // 0.758 kg CO2e == 1kWh
 public class CarbonFootprintCalculator {
-  private int kWh;
-  private final double emissionFactor = 0.758; // https://sustainability.um.edu.my/ghg-um-2023
+  private final double carbonCoef = 0.758;
 
   public CarbonFootprintCalculator() {
-    this.kWh = 0;
+    
   }
 
-  public CarbonFootprintCalculator(int kWh) {
-    this.kWh = kWh;
+  public double calculateCarbon(Item item) {
+    return item.getQuantity() * item.getAverageHours() * item.getUsage() * carbonCoef;
   }
 
-  public int getKWh() {
-    return kWh;
+  public double trendComparison(MonthlyReport current, MonthlyReport previous) {
+    return ((current.getTotalCarbonFootprint() / previous.getTotalCarbonFootprint()) - 1) * 100;//percentge
   }
-
-  public void setKWh(int kWh) {
-    this.kWh = kWh;
-  }
-
-  public double calculateCarbon() {
-    return kWh * emissionFactor;
-  }
-
-  public double calculateCarbonPerYear() {
-    return calculateCarbon() * 12;
-  }
-
-  public void display() {
-    System.out.printf("Enter the amount of electricity used in (kWh) per month: ");
-  }
-
+  
   public void calculate() {
-    System.out.printf("Your monthly " + getKWh() + "kWh of electricity usage accounts to: "
-        + calculateCarbon() + "kg CO2e/kWh/month\n" + "In a year, you will produce: "
-        + calculateCarbonPerYear() + "kg CO2e\n");
+    DatabaseConfiguration.configure();
+    RecordManager<Room> roomManager = RecordManager.get("room");
+    RecordQuery<Room> queryAll = (Room room) -> {return true;};
 
-    // Carbon Footprint per year
-    if (calculateCarbonPerYear() < 2000.00) {
-      System.out.println(
-          "Your Lifestyle is Sustainable. Aligned with Global Target for Sustainability. Keep it up");
-    } else if (calculateCarbonPerYear() >= 2000.00 && calculateCarbonPerYear() <= 4000.00) {
-      System.out.println(
-          "Your Lifestyle is Moderate. Better than averag but not yet sustainable. \nCarbon emission below 2 tons CO2e/year or ~219kWh/month is adviced. \nReduce electricity usage");
-    } else {
-      System.out.println(
-          "Carbon emission above 4 tons CO2e/year is Unsustainable. ABOVE PLANETARY BOUNDARIES. \nYou are harming the planet. Reduce electricity usage immediately");
+    double totalCarbon = 0.0;
+    for(Room room : roomManager.query(queryAll)) {
+      for(Item item : room.getItems()) {
+        totalCarbon += calculateCarbon(item);
+      }
     }
+    System.out.printf("Your monthly electricity usage accounts to: %.2f kg CO2e/kWh\n", totalCarbon);
   }
 }
