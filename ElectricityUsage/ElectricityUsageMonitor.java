@@ -25,11 +25,13 @@ public class ElectricityUsageMonitor {
     }
 
     public void deleteRoom() {
-        RecordQuery<Room> roomQuery = (Room recordQuery) -> {return true;};
+        RecordQuery<Room> roomQuery = (Room recordQuery) -> {
+            return true;
+        };
         ArrayList<Room> rooms = roomManager.query(roomQuery);
         System.out.println("Room List:");
         for (Room room : rooms) {
-                System.out.println(room.getName());
+            System.out.println(room.getName());
         }
         System.out.print("Enter room name to delete: ");
         String name = input.nextLine();
@@ -51,7 +53,7 @@ public class ElectricityUsageMonitor {
 
     public void limitRoom(Room r1) {
         System.out.print("Current Limit: ");
-        r1.getLimit();
+        System.out.println(r1.getLimit());
         System.out.print("New Limit: ");
         double limit = input.nextDouble();
         r1.setLimit(limit);

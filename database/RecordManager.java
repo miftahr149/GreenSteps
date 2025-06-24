@@ -1,8 +1,6 @@
 package database;
 
 import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Map;
 import java.util.Vector;
 
 interface CallbackRecord {
@@ -15,8 +13,6 @@ interface CallbackRecord {
 
 
 public class RecordManager<T extends BaseRecord> {
-  static private Map<String, RecordManager<?>> managerInstanceList =
-      new HashMap<String, RecordManager<?>>();
   static private Vector<RecordManager<?>> managerInstanceListTest = new Vector<>();
 
   private Factory<T> factory;

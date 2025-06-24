@@ -18,7 +18,6 @@ public class GenerateReport {
     private ArrayList<MonthlyReport> all;
 
     public GenerateReport() {
-        DatabaseConfiguration.configure();
         calc = new CarbonFootprintCalculator();
         reportList = RecordManager.get("monthlyReport");
         query = (record) -> {
@@ -30,8 +29,9 @@ public class GenerateReport {
 
     public void getUsage(int c) {
         for (MonthlyUsage m : all.get(c).getMonthlyUsage()) {
-            System.out.println(m.getRoomName() + " used " + m.getElectricityUsage() + "KWH of electricity and produced "
-                    + m.getCarbonFootprint() + "CO2e carbon footprint this month");
+            System.out.println(m.getRoomName() + " used " + m.getElectricityUsage()
+                    + "KWH of electricity and produced " + m.getCarbonFootprint()
+                    + "CO2e carbon footprint this month");
         }
     }
 
@@ -46,10 +46,10 @@ public class GenerateReport {
         }
 
         System.out.println("");
-        System.out.println("The highest production of carbon footprint was produced in: " + getHighest());
         System.out.println(
-                "The average carbon footprint produced in the span of " + all.size() + " month(s) is: " + getAverage()
-                        + "CO2e");
+                "The highest production of carbon footprint was produced in: " + getHighest());
+        System.out.println("The average carbon footprint produced in the span of " + all.size()
+                + " month(s) is: " + getAverage() + "CO2e");
 
         Scanner scanner = new Scanner(System.in);
         System.out.println("");
@@ -58,10 +58,9 @@ public class GenerateReport {
         System.out.printf("Your choice: ");
         int choice = scanner.nextInt();
 
-        if (choice == 0) {
-            // back to main menu
+        if (choice != 0) {
+            details(choice);
         }
-        details(choice);
     }
 
     public String getHighest() {

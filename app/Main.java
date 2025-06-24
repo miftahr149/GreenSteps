@@ -21,15 +21,7 @@ interface OptionFunction {
 public class Main {
 
   public static final int maxLength = 40;
-  public static final Map<String, OptionFunction> optionList = new HashMap<>() {
-    {
-      put("Set Room Items", new ItemSelector()::display);
-      put("Generate Report", new GenerateReport()::display);
-      put("Create new room", new ElectricityUsageMonitor()::addRoom);
-      put("Set Room Electricity Limit", new SetRoomLimit()::main);
-      put("Add new Item Type", AddItemMetadata::main);
-    }
-  };
+  public static Map<String, OptionFunction> optionList;
 
   public static boolean endProgram = false;
 
@@ -118,6 +110,15 @@ public class Main {
 
   public static void main(String[] args) throws IOException {
     DatabaseConfiguration.configure();
+    optionList = new HashMap<>() {
+      {
+        put("Set Room Items", new ItemSelector()::display);
+        put("Generate Report", new GenerateReport()::display);
+        put("Create new room", new ElectricityUsageMonitor()::addRoom);
+        put("Set Room Electricity Limit", new SetRoomLimit()::main);
+        put("Add new Item Type", AddItemMetadata::main);
+      }
+    };
     displayMenu();
   }
 }

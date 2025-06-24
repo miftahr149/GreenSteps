@@ -7,7 +7,6 @@ import java.util.ArrayList;
 public class ItemSelector {
   public void display() {
     Scanner scanner = new Scanner(System.in);
-    DatabaseConfiguration.configure();
     RecordManager<Room> roomManager = RecordManager.get("room");
     RecordQuery<Room> queryAll = (Room room) -> {
       return true;
