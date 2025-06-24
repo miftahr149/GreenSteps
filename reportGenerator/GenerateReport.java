@@ -101,8 +101,9 @@ public class GenerateReport {
             MonthlyReport report2 = all.get(c - 2);
 
             System.out.println("");
-            System.out.println("This month has a " + calc.trendComparison(report1, report2)
-                    + "% change in carbon footprint produced compared to the previous month");
+            System.out.printf(
+                    "This month has a %.2f%%%n change in carbon footprint produced compared to the previous month\n",
+                    calc.trendComparison(report1, report2));
         }
 
         System.out.println("");

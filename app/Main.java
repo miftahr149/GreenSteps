@@ -6,6 +6,7 @@ import java.util.InputMismatchException;
 import java.util.Map;
 import java.util.Set;
 import ElectricityUsage.ElectricityUsageMonitor;
+import reportGenerator.GenerateReport;
 import java.util.Scanner;
 import database.DatabaseConfiguration;
 import footprintCalculator.ItemSelector;
@@ -21,7 +22,7 @@ public class Main {
   public static final Map<String, OptionFunction> optionList = new HashMap<>() {
     {
       put("Carbon Footprint Calculator", new ItemSelector()::display);
-      put("Option2", Main::func2);
+      put("Option2", new GenerateReport()::display);
       put("Option3", Main::func3);
     }
   };
