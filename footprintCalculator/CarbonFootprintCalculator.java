@@ -24,7 +24,8 @@ public class CarbonFootprintCalculator {
     return ((current.getTotalCarbonFootprint() / previous.getTotalCarbonFootprint()) - 1) * 100;//percentge
   }
   
-  public void calculate() {
+  //total carbon emission of all items
+  public void calculateTotal() {
     DatabaseConfiguration.configure();
     RecordManager<Room> roomManager = RecordManager.get("room");
     RecordQuery<Room> queryAll = (Room room) -> {return true;};
