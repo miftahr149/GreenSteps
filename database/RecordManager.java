@@ -3,6 +3,7 @@ package database;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Vector;
 
 interface CallbackRecord {
   void update(BaseRecord record);
@@ -16,33 +17,47 @@ interface CallbackRecord {
 public class RecordManager<T extends BaseRecord> {
   static private Map<String, RecordManager<?>> managerInstanceList =
       new HashMap<String, RecordManager<?>>();
+  static private Vector<RecordManager<?>> managerInstanceListTest = new Vector<>();
 
   private Factory<T> factory;
-  private ArrayList<Change> changedRecordList;
-  private ArrayList<T> recordList;
+  private Vector<Change> changedRecordList;
+  private Vector<T> recordList;
   private RecordFileManager fileManager;
   private CallbackRecord callback;
+  private String filename;
 
   private int highestID;
   private boolean isManagerChange = false;
   private String[] saveAttributes = {"highestID"};
 
-  static private void addManagerInstance(String name, RecordManager<?> instance) {
-    RecordManager.managerInstanceList.put(name, instance);
+  static private void addManagerInstance(RecordManager<?> instance) {
+    RecordManager.managerInstanceListTest.add(instance);
   }
 
   static public <U extends BaseRecord> RecordManager<U> get(String name) {
-    RecordManager<?> result = RecordManager.managerInstanceList.get(name);
+    RecordManager<?> result = null;
+    for (RecordManager<?> iter : RecordManager.managerInstanceListTest) {
+      if (iter.getFilename().equals(name)) {
+        result = iter;
+        break;
+      }
+    }
+
     @SuppressWarnings("unchecked")
     RecordManager<U> returnValue = (RecordManager<U>) result;
     return returnValue;
   }
 
+  private String getFilename() {
+    return this.filename;
+  }
+
   public RecordManager(Factory<T> factory) {
     this.factory = factory;
-    RecordManager.addManagerInstance(this.factory.getFilename(), this);
-    this.changedRecordList = new ArrayList<Change>();
-    this.recordList = new ArrayList<T>();
+    this.filename = this.factory.getFilename();
+    RecordManager.addManagerInstance(this);
+    this.changedRecordList = new Vector<Change>();
+    this.recordList = new Vector<T>();
     this.callback = this.generateCallbackRecord(this);
 
     this.fileManager = new RecordFileManager(this.factory.getFileDirname());

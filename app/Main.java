@@ -6,6 +6,7 @@ import java.util.InputMismatchException;
 import java.util.Map;
 import java.util.Set;
 import ElectricityUsage.ElectricityUsageMonitor;
+import ElectricityUsage.SetRoomLimit;
 import reportGenerator.GenerateReport;
 import java.util.Scanner;
 import database.DatabaseConfiguration;
@@ -16,28 +17,21 @@ interface OptionFunction {
   void execute();
 }
 
+
 public class Main {
 
   public static final int maxLength = 40;
   public static final Map<String, OptionFunction> optionList = new HashMap<>() {
     {
-      put("Carbon Footprint Calculator", new ItemSelector()::display);
-      put("Option2", new GenerateReport()::display);
-      put("Option3", Main::func3);
+      put("Set Room Items", new ItemSelector()::display);
+      put("Generate Report", new GenerateReport()::display);
+      put("Create new room", new ElectricityUsageMonitor()::addRoom);
+      put("Set Room Electricity Limit", new SetRoomLimit()::main);
+      put("Add new Item Type", AddItemMetadata::main);
     }
   };
 
-  public static void func1() {
-    System.out.println("This is function 1");
-  }
-
-  public static void func3() {
-    System.out.println("This is function 3");
-  }
-
-  public static void func2() {
-    System.out.println("This is function 2");
-  }
+  public static boolean endProgram = false;
 
   public static void displayHeading() {
     String title = "GreenSteps";
@@ -80,8 +74,8 @@ public class Main {
 
     Set<Map.Entry<String, OptionFunction>> optionSet = optionList.entrySet();
     @SuppressWarnings("unchecked")
-    Map.Entry<String, OptionFunction> optionEntry = (Map.Entry<String, OptionFunction>) optionSet.toArray()[userInput
-        - 1];
+    Map.Entry<String, OptionFunction> optionEntry =
+        (Map.Entry<String, OptionFunction>) optionSet.toArray()[userInput - 1];
 
     return optionEntry.getValue();
   }
@@ -107,7 +101,7 @@ public class Main {
       displayMenu();
     }
 
-    while (true) {
+    while (true && !endProgram) {
       System.out.print("Continue [y/n]: ");
       String userInput = input.nextLine();
       userInput = userInput.toLowerCase();
@@ -115,6 +109,7 @@ public class Main {
         System.out.println("\033[H\033[2J");
         if ("y".equals(userInput))
           displayMenu();
+        endProgram = false;
         break;
       }
       System.out.println("incorrect option, please use appropriate option");

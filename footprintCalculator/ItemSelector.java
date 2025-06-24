@@ -9,46 +9,47 @@ public class ItemSelector {
     Scanner scanner = new Scanner(System.in);
     DatabaseConfiguration.configure();
     RecordManager<Room> roomManager = RecordManager.get("room");
-    RecordQuery<Room> queryAll = (Room room) -> {return true;};
+    RecordQuery<Room> queryAll = (Room room) -> {
+      return true;
+    };
     ArrayList<Room> rooms = roomManager.query(queryAll);
 
-    //display room
+    // display room
     System.out.println("List of Rooms:");
-    for(Room room : roomManager.query(queryAll)) {
+    for (Room room : roomManager.query(queryAll)) {
       System.out.println(room.getName());
     }
 
-    //select room
+    // select room
     System.out.print("Select a room: ");
     int roomInput = scanner.nextInt();
     Room userInputRoom = rooms.get(roomInput - 1);
-    
-    //display item
+
+    // display item
     ArrayList<Item> items = userInputRoom.getItems();
     System.out.println("List of Items: ");
-    for(int i = 0; i < items.size(); i++) {
+    for (int i = 0; i < items.size(); i++) {
       System.out.printf("%d. %s\n", i + 1, items.get(i).getName());
     }
 
-    //select item
+    // select item
     System.out.print("Select an item: ");
     int itemInput = scanner.nextInt();
     Item userInputItem = items.get(itemInput - 1);
 
-    //input quantity
+    // input quantity
     System.out.print("Enter quantity: ");
     int quantity = scanner.nextInt();
 
-    //input avgHour
+    // input avgHour
     System.out.print("Enter average hour per month: ");
     int averageHours = scanner.nextInt();
 
-    //set values
+    // set values
     userInputItem.setQuantity(quantity);
     userInputItem.setAverageHours(averageHours);
     userInputItem.save();
 
     System.out.println("Saved to database");
-    scanner.close();
   }
 }
