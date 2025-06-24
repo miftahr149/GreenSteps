@@ -51,7 +51,7 @@ public class Item extends BaseRecord {
 
   public void setRoom(Room room) {
     super.callback.update(this);
-    this.room.add(room.getID());
+    this.room.add(room);
   }
 
   public int getQuantity() {

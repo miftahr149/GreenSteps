@@ -71,8 +71,7 @@ public class AddItemMetadata {
     itemManager.save();
   }
 
-  public static void main(String[] args) {
-    DatabaseConfiguration.configure();
+  public static void main() {
     RecordManager<ItemMetadata> metadataManager = RecordManager.get("itemMetadata");
     RecordManager<Room> roomManager = RecordManager.get("room");
     RecordManager<Item> itemManager = RecordManager.get("item");
@@ -84,5 +83,10 @@ public class AddItemMetadata {
       ItemMetadata result = createItemMetadata(input, metadataManager);
       addItemToAllRoom(result, roomManager, itemManager);
     }
+  }
+
+  public static void main(String[] args) {
+    DatabaseConfiguration.configure();
+    main();
   }
 }

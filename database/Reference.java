@@ -69,6 +69,14 @@ public class Reference<T extends BaseRecord> {
     this.isExtracted = true;
   }
 
+  public void add(T record) {
+    this.setReferenceID(record.getID());
+    if (this.isExtracted)
+      this.oppositeCallback.handleDelete(this.parentRecord);
+    this.oppositeCallback = record.addReference(this.parentRecord, this.callback);
+    this.isExtracted = true;
+  }
+
   static void extractAllReference() {
     for (Reference<?> reference : Reference.referenceList) {
       if (reference.referenceID == -1 || reference.isExtracted)
