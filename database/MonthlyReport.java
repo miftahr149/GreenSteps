@@ -1,6 +1,7 @@
 package database;
 
 import java.util.Date;
+import java.util.ArrayList;
 
 public class MonthlyReport extends BaseRecord {
   private CustomDate date;
@@ -49,5 +50,9 @@ public class MonthlyReport extends BaseRecord {
 
   public double getTotalCarbonFootprint() {
     return this.totalCarbonFootprint;
+  }
+
+  public ArrayList<MonthlyUsage> getMonthlyUsage() {
+    return super.referenceSubscriber.get(MonthlyUsage.class);
   }
 }
