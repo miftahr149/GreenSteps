@@ -1,6 +1,5 @@
 package app;
 
-
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.InputMismatchException;
@@ -8,19 +7,19 @@ import java.util.Map;
 import java.util.Set;
 import java.util.Scanner;
 import database.DatabaseConfiguration;
+import reportGenerator.GenerateReport;
 
 @FunctionalInterface
 interface OptionFunction {
   void execute();
 }
 
-
 public class Main {
 
   public static final int maxLength = 40;
   public static final Map<String, OptionFunction> optionList = new HashMap<>() {
     {
-      put("Option1", Main::func1);
+      put("Monthly Report", Main::func1);
       put("Option2", Main::func2);
     }
   };
@@ -74,15 +73,14 @@ public class Main {
 
     Set<Map.Entry<String, OptionFunction>> optionSet = optionList.entrySet();
     @SuppressWarnings("unchecked")
-    Map.Entry<String, OptionFunction> optionEntry =
-        (Map.Entry<String, OptionFunction>) optionSet.toArray()[userInput - 1];
+    Map.Entry<String, OptionFunction> optionEntry = (Map.Entry<String, OptionFunction>) optionSet.toArray()[userInput
+        - 1];
 
     return optionEntry.getValue();
   }
 
   public static void displayMenu() throws IOException {
     Scanner input = new Scanner(System.in);
-
 
     displayHeading();
     displayOption();
@@ -115,7 +113,6 @@ public class Main {
       System.out.println("incorrect option, please use appropriate option");
     }
   }
-
 
   public static void main(String[] args) throws IOException {
     DatabaseConfiguration.configure();
