@@ -58,6 +58,7 @@ public class Simulation {
       int averageHours = getRandomNumber();
       item.setAverageHours(averageHours);
       totalElectricityUsage += getMonthlyUsage(item);
+      totalElectricityUsage = Math.min(totalElectricityUsage, room.getLimit());
       item.save();
     }
 
