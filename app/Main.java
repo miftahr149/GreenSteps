@@ -6,8 +6,10 @@ import java.util.HashMap;
 import java.util.InputMismatchException;
 import java.util.Map;
 import java.util.Set;
+import ElectricityUsage.ElectricityUsageMonitor;
 import java.util.Scanner;
 import database.DatabaseConfiguration;
+import footprintCalculator.ItemSelector;
 
 @FunctionalInterface
 interface OptionFunction {
@@ -20,13 +22,18 @@ public class Main {
   public static final int maxLength = 40;
   public static final Map<String, OptionFunction> optionList = new HashMap<>() {
     {
-      put("Option1", Main::func1);
+      put("Carbon Footprint Calculator", new ItemSelector()::display);
       put("Option2", Main::func2);
+      put("Option3", Main::func3);
     }
   };
 
   public static void func1() {
     System.out.println("This is function 1");
+  }
+
+  public static void func3() {
+    System.out.println("This is function 3");
   }
 
   public static void func2() {
