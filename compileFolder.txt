@@ -1,3 +1,5 @@
 database
 footprintCalculator
+reportGenerator
+ElectricityUsage
 app

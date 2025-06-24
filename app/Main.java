@@ -1,12 +1,12 @@
 package app;
 
-
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.InputMismatchException;
 import java.util.Map;
 import java.util.Set;
 import ElectricityUsage.ElectricityUsageMonitor;
+import reportGenerator.GenerateReport;
 import java.util.Scanner;
 import database.DatabaseConfiguration;
 import footprintCalculator.ItemSelector;
@@ -16,14 +16,13 @@ interface OptionFunction {
   void execute();
 }
 
-
 public class Main {
 
   public static final int maxLength = 40;
   public static final Map<String, OptionFunction> optionList = new HashMap<>() {
     {
       put("Carbon Footprint Calculator", new ItemSelector()::display);
-      put("Option2", Main::func2);
+      put("Option2", new GenerateReport()::display);
       put("Option3", Main::func3);
     }
   };
@@ -81,15 +80,14 @@ public class Main {
 
     Set<Map.Entry<String, OptionFunction>> optionSet = optionList.entrySet();
     @SuppressWarnings("unchecked")
-    Map.Entry<String, OptionFunction> optionEntry =
-        (Map.Entry<String, OptionFunction>) optionSet.toArray()[userInput - 1];
+    Map.Entry<String, OptionFunction> optionEntry = (Map.Entry<String, OptionFunction>) optionSet.toArray()[userInput
+        - 1];
 
     return optionEntry.getValue();
   }
 
   public static void displayMenu() throws IOException {
     Scanner input = new Scanner(System.in);
-
 
     displayHeading();
     displayOption();
@@ -123,7 +121,6 @@ public class Main {
       System.out.println("incorrect option, please use appropriate option");
     }
   }
-
 
   public static void main(String[] args) throws IOException {
     DatabaseConfiguration.configure();
