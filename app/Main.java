@@ -99,6 +99,7 @@ public class Main {
       func = getUserOption(input);
       System.out.println("\033[H\033[2J");
       func.execute();
+      input.nextLine();
     } catch (InputMismatchException e) {
       System.out.println("\033[H\033[2J");
       System.out.println("Invalid format! please input the correct format");
